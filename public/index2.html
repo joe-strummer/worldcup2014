@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script src="http://momentjs.com/downloads/moment.min.js"></script>
+<script>
+var todaysMatchesJsonObject, todaysMatches;
+
+var countryMapper = {
+'Italy': 'Stefan',
+'Portugal':'James Hayes',
+'USA':'Nuthan',
+'Colombia':'Loz',
+'Costa Rica':'Aman',
+'Uruguay':'John Payne',
+'Japan':'James Cade',
+'Belgium':'Rob Mc',
+'Cameroon':'Geoff',
+'Ecuador':'Supriya',
+'Nigeria':'Almir',
+'Argentina':'Dave',
+'Mexico':'Jamie',
+'Ghana':'Juan',
+'Germany':'Vinit',
+'Switzerland':'Joanne',
+'Croatia':'Badger',
+'Greece':'Jack',
+'Chile':'Ian M',
+'Honduras':'Ross',
+'Ivory Coast':'Ian B',
+'Korea Republic':'Mark Debney',
+'Netherlands':'Gary',
+'Algeria':'Anna',
+'France':'Deborah',
+'Spain':'Tink',
+'Brazil':'Ash',
+'Australia':'Peji',
+'England':'Justin',
+'Iran':'Jess',
+'Bosnia and Herzegovina':'Sanjida',
+'Russia':'Leonel'
+};
+
+$(document).ready(function(){
+  todaysMatchesJsonObject = $.ajax({url:"http://worldcup.sfg.io/matches/today?by_date=asc"});  
+});
+$(document).ajaxComplete(function() {
+  todaysMatches = todaysMatchesJsonObject.responseJSON;
+  for (var i = 0; i < todaysMatches.length; i++) {
+    var home = todaysMatches[i].home_team;
+    var away = todaysMatches[i].away_team;
+    todaysMatches[i].matchAsString = home.country + " <i>"+countryMapper[home.country]+"</i>" + " vs " + away.country + " <i>"+countryMapper[away.country]+"</i>";
+    console.log(todaysMatches[i].matchAsString);
+        
+    var date = moment(new Date(todaysMatches[i].datetime).toUTCString());
+    $("#todaysMatches").append("<div class='match'>"
+                                  +"<span class='teams'>"
+                                  +todaysMatches[i].matchAsString
+                                  +"</span> <span class='time'>"
+                                  +date.hours()+":00" + " <i>" + date.fromNow() +"</i>"
+                                  +"</span>"
+                             + "</div>");
+  } 
+});
+</script>
+
+<style>
+  body {
+    font-family: sans-serif;
+    font-weight: bold;
+  }
+  
+  .main {
+    color: #559608;
+  }
+  
+  .alternative {
+    color: #f9cb00
+  }
+  
+  i {
+    font-weight: lighter;
+    font-style: normal;
+    opacity: 0.5;
+  }
+  
+  .match .time {
+    color: #559608;
+  }
+  
+  .match .teams {
+    color: #f9cb00;
+  }
+</style>
+</head>
+<body>
+
+<h2><span class='main'>World Cup <i>2014</i> </span><span class='alternative'>Sky Identity <i>Sweepstake</i></span></h2>
+<h3 class='main'><i>Who is playing today?</i></h3>
+<div id=todaysMatches></div>
+
+</body>
+</html>
