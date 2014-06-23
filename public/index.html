@@ -99,10 +99,27 @@ $(document).ready(function(){
   body {
     font-family: sans-serif;
     font-weight: bold;
+    background: 
+      linear-gradient(135deg, #559608 25%, transparent 25%) -50px 0,
+      linear-gradient(225deg, #559608 25%, transparent 25%) -50px 0,
+      linear-gradient(315deg, #559608 25%, transparent 25%),
+      linear-gradient(45deg, #559608 25%, transparent 25%);	
+    background-size: 100px 100px;
+    background-color: #f9cb00;
   }
   
   .main {
     color: #559608;
+  }
+  
+  section {
+    background-color:#fff;
+    border-radius: 5px;
+    padding: 20px;
+  }
+  
+  h2 {
+    margin-top: 0px;
   }
   
   .error {
@@ -135,11 +152,11 @@ $(document).ready(function(){
 </style>
 </head>
 <body>
-
+<section>
 <h2><span class='main'>World Cup <i>2014</i> </span><span class='alternative'>Sky Identity <i>Sweepstake</i></span></h2>
 <h3 class='main'><i>Who is playing today?</i></h3>
 <div id=todaysMatches>
 </div>
-
+</section>
 </body>
 </html>
