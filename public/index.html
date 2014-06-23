@@ -61,13 +61,23 @@ $(document).ready(function(){
      if (todaysMatches) {
        for (var i = 0; i < todaysMatches.length; i++) {
          var home = todaysMatches[i].home_team;
+         var homeGoals = todaysMatches[i].home_team.goals;
          var away = todaysMatches[i].away_team;
+         var awayGoals = todaysMatches[i].away_team.goals;
+         
          todaysMatches[i].matchAsString = home.country + " <i>"+countryMapper[home.country]+"</i>" + " vs " + away.country + " <i>"+countryMapper[away.country]+"</i>";
+         
+         var result = "not started"
+         
+         if (typeof homeGoals === "number") {
+           result = homeGoals + " - " + awayGoals;
+         }  
             
          var date = moment(new Date(todaysMatches[i].datetime).toUTCString());
          $("#todaysMatches").append("<div class='match'>"
                                       +"<span class='teams'>"
                                       +todaysMatches[i].matchAsString
+                                      +"<i>("+result+")</i>" +
                                       +"</span> <span class='time'>"
                                       +date.hours()+":00" + " <i>" + date.fromNow() +"</i>"
                                       +"</span>"
@@ -123,12 +133,6 @@ $(document).ready(function(){
     padding: 4px;
   }
   
-  @media screen and (max-width: 600px) {
-    body {
-      max-width: 400px;
-      size: 2em;
-    }
-  }
 </style>
 </head>
 <body>
