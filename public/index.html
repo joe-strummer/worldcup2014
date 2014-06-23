@@ -69,7 +69,7 @@ $(document).ready(function(){
          
          var result = "not started"
          if (todaysMatches[i].status != "future") {
-           result = homeGoals + " - " + awayGoals;
+           result = homeGoals + "&nbsp;-&nbsp;" + awayGoals;
          }  
             
          var date = moment(new Date(todaysMatches[i].datetime).toUTCString());
