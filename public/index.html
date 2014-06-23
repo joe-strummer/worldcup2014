@@ -43,9 +43,18 @@ var countryMapper = {
 };
 
 $(document).ready(function(){
-  todaysMatchesJsonObject = $.ajax({url:"http://worldcup.sfg.io/matches/today?by_date=asc"});  
+  todaysMatchesJsonObject = $.ajax({
+    url:"http://worldcup.sfg.io/matches/today?by_date=asc",
+    error: function() {
+      $("#todaysMatches img").remove();
+      $("#todaysMatches").append("<div class='error'>There was an error retrieving match data from the API. <i>Sucks for you.</i></div>");
+    },
+    timeout: 3500
+  });  
 });
 $(document).ajaxComplete(function() {
+  $("#todaysMatches img").remove();
+
   todaysMatches = todaysMatchesJsonObject.responseJSON;
   for (var i = 0; i < todaysMatches.length; i++) {
     var home = todaysMatches[i].home_team;
@@ -73,6 +82,10 @@ $(document).ajaxComplete(function() {
   
   .main {
     color: #559608;
+  }
+  
+  .error {
+    color: #cb0000;
   }
   
   .alternative {
@@ -110,7 +123,9 @@ $(document).ajaxComplete(function() {
 
 <h2><span class='main'>World Cup <i>2014</i> </span><span class='alternative'>Sky Identity <i>Sweepstake</i></span></h2>
 <h3 class='main'><i>Who is playing today?</i></h3>
-<div id=todaysMatches></div>
+<div id=todaysMatches>
+  <img src="images/ajax-loader.gif" />
+</div>
 
 </body>
 </html>
