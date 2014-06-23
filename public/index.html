@@ -52,36 +52,35 @@ $(document).ready(function(){
        $("#todaysMatches").empty();
        $("#todaysMatches").append("<div class='error'>There was an error retrieving match data from the API. <i>Sucks for you.</i></div>");
      },
-     timeout: 2000
+     timeout: 8000
    });  
    
-   $(document).ajaxComplete(function() {
-    $("#todaysMatches").empty();
-  
-    todaysMatches = todaysMatchesJsonObject.responseJSON;
-    if (todaysMatches) {
-     for (var i = 0; i < todaysMatches.length; i++) {
-       var home = todaysMatches[i].home_team;
-       var away = todaysMatches[i].away_team;
-       todaysMatches[i].matchAsString = home.country + " <i>"+countryMapper[home.country]+"</i>" + " vs " + away.country + " <i>"+countryMapper[away.country]+"</i>";
-           
-       var date = moment(new Date(todaysMatches[i].datetime).toUTCString());
-       $("#todaysMatches").append("<div class='match'>"
-                                     +"<span class='teams'>"
-                                     +todaysMatches[i].matchAsString
-                                     +"</span> <span class='time'>"
-                                     +date.hours()+":00" + " <i>" + date.fromNow() +"</i>"
-                                     +"</span>"
-                                + "</div>");
-     } 
-    } else {
-      console.log("for some reason JQuery went into the 'complete', even tho the ajax request crapped out...");
-      $("#todaysMatches").append("<div class='error'>There was an error retrieving match data from the API. <i>Sucks for you.</i></div>");
-    }
+   $(document).ajaxComplete(function() {  
+     $("#todaysMatches").empty();
+     todaysMatches = todaysMatchesJsonObject.responseJSON;
+     if (todaysMatches) {
+       for (var i = 0; i < todaysMatches.length; i++) {
+         var home = todaysMatches[i].home_team;
+         var away = todaysMatches[i].away_team;
+         todaysMatches[i].matchAsString = home.country + " <i>"+countryMapper[home.country]+"</i>" + " vs " + away.country + " <i>"+countryMapper[away.country]+"</i>";
+            
+         var date = moment(new Date(todaysMatches[i].datetime).toUTCString());
+         $("#todaysMatches").append("<div class='match'>"
+                                      +"<span class='teams'>"
+                                      +todaysMatches[i].matchAsString
+                                      +"</span> <span class='time'>"
+                                      +date.hours()+":00" + " <i>" + date.fromNow() +"</i>"
+                                      +"</span>"
+                                 + "</div>");
+       } 
+     } else {
+       console.log("for some reason JQuery went into the 'complete', even tho the ajax request crapped out...");
+       $("#todaysMatches").append("<div class='error'>There was an error retrieving match data from the API. <i>Sucks for you.</i></div>");
+     }
   });
  };
  theLoop();
- setInterval(theLoop, 600000);
+ setInterval(theLoop, 300000);
 });
 
 
