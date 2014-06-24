@@ -67,7 +67,7 @@ $(document).ready(function(){
          
          todaysMatches[i].matchAsString = home.country + " <i>"+countryMapper[home.country]+"</i>" + " vs " + away.country + " <i>"+countryMapper[away.country]+"</i>";
          
-         var result = "not started"
+         var result = "not&nbsp;started"
          if (todaysMatches[i].status != "future") {
            result = homeGoals + "&nbsp;-&nbsp;" + awayGoals;
          }  
