@@ -1,0 +1,53 @@
+body {
+    font-family: sans-serif;
+    font-weight: bold;
+    background-image: url('images/background.png');
+    background: 
+      linear-gradient(135deg, #559608 25%, transparent 25%) -50px 0,
+      linear-gradient(225deg, #559608 25%, transparent 25%) -50px 0,
+      linear-gradient(315deg, #559608 25%, transparent 25%),
+      linear-gradient(45deg, #559608 25%, transparent 25%);	
+    background-size: 100px 100px;
+    background-color: #f9cb00;
+  }
+  
+  .main {
+    color: #559608;
+  }
+  
+  section {
+    background-color:#fff;
+    border-radius: 5px;
+    padding: 20px;
+  }
+  
+  h2 {
+    margin-top: 0px;
+  }
+  
+  .error {
+    color: #cb0000;
+  }
+  
+  .alternative {
+    color: #f9cb00
+  }
+  
+  i {
+    font-weight: lighter;
+    font-style: normal;
+    opacity: 0.5;
+  }
+  
+  .match .time {
+    color: #559608;
+  }
+  
+  .match .teams {
+    color: #f9cb00;
+    display: block;
+  }
+  
+  .match {
+    padding: 4px;
+  }
