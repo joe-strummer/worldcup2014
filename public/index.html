@@ -5,42 +5,7 @@
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script src="http://momentjs.com/downloads/moment.min.js"></script>
 <script>
-var todaysMatchesJsonObject, todaysMatches;
-
-var countryMapper = {
-'Italy': 'Stefan',
-'Portugal':'James Hayes',
-'USA':'Nuthan',
-'Colombia':'Loz',
-'Costa Rica':'Aman',
-'Uruguay':'John Payne',
-'Japan':'James Cade',
-'Belgium':'Rob Mc',
-'Cameroon':'Geoff',
-'Ecuador':'Supriya',
-'Nigeria':'Almir',
-'Argentina':'Dave',
-'Mexico':'Jamie',
-'Ghana':'Juan',
-'Germany':'Vinit',
-'Switzerland':'Joanne',
-'Croatia':'Badger',
-'Greece':'Jack',
-'Chile':'Ian M',
-'Honduras':'Ross',
-'Ivory Coast':'Ian B',
-'Korea Republic':'Mark Debney',
-'Netherlands':'Gary',
-'Algeria':'Anna',
-'France':'Deborah',
-'Spain':'Tink',
-'Brazil':'Ash',
-'Australia':'Peji',
-'England':'Justin',
-'Iran':'Jess',
-'Bosnia and Herzegovina':'Sanjida',
-'Russia':'Leonel'
-};
+var todaysMatchesJsonObject, todaysMatches, countryMapper;
 
 $(document).ready(function(){
   var theLoop = function() {
