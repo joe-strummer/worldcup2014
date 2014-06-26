@@ -4,59 +4,77 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <script src="http://momentjs.com/downloads/moment.min.js"></script>
+<script src="data/data.json"></script>
 <script>
-var todaysMatchesJsonObject, todaysMatches, countryMapper;
+var TIMEOUT_MILLISECONDS = 10 * 1000;
+var REFRESH_MILLISECONDS = 60 * 1000;
+var countryMapper;
 
 $(document).ready(function(){
-  var theLoop = function() {
-   $("#todaysMatches").empty();
-   $("#todaysMatches").append("<img src='images/ajax-loader.gif' /><i>Fetching data</i>");
-   todaysMatchesJsonObject = $.ajax({
-     url:"http://worldcup.sfg.io/matches/today?by_date=asc",
-     error: function() {
-       $("#todaysMatches").empty();
-       $("#todaysMatches").append("<div class='error'>There was an error retrieving match data from the API. <i>Sucks for you.</i></div>");
-     },
-     timeout: 10000
-   });  
-   
-   $(document).ajaxComplete(function() {  
-     $("#todaysMatches").empty();
-     todaysMatches = todaysMatchesJsonObject.responseJSON;
-     if (todaysMatches) {
-       for (var i = 0; i < todaysMatches.length; i++) {
-         var home = todaysMatches[i].home_team;
-         var homeGoals = todaysMatches[i].home_team.goals;
-         var away = todaysMatches[i].away_team;
-         var awayGoals = todaysMatches[i].away_team.goals;
-         
-         todaysMatches[i].matchAsString = home.country + " <i>"+countryMapper[home.country]+"</i>" + " vs " + away.country + " <i>"+countryMapper[away.country]+"</i>";
-         
-         var result = "not&nbsp;started"
-         if (todaysMatches[i].status != "future") {
-           result = homeGoals + "&nbsp;-&nbsp;" + awayGoals;
-         }  
-            
-         var date = moment(new Date(todaysMatches[i].datetime).toUTCString());
-         $("#todaysMatches").append("<div class='match'>"
-                                      +"<span class='teams'>"
-                                      +todaysMatches[i].matchAsString
-                                      +"<i> ("+result+") </i>"
-                                      +"</span> <span class='time'>"
-                                      +date.hours()+":00" + " <i>" + date.fromNow() +"</i>"
-                                      +"</span>"
-                                 + "</div>");
-       } 
-     } else {
-       console.log("for some reason JQuery went into the 'complete', even tho the ajax request crapped out...");
-       $("#todaysMatches").append("<div class='error'>There was an error retrieving match data from the API. <i>Sucks for you.</i></div>");
-     }
-  });
- };
- theLoop();
- setInterval(theLoop, 60000);
-});
 
+  var getDataSetFromAnchor = function() {
+  	var dataSetName = document.URL.split('#')[1];
+ 	if (dataSetName) {
+   		if (data[dataSetName]) {
+   			return data[dataSetName];
+   		}
+	}
+   	return data["identity"];
+  };
+  
+  var displayErrorMessage = function() {
+  	$("#todaysMatches").empty();
+	$("#todaysMatches").append("<div class='error'>There was an error retrieving match data from the API. <i>Sucks for you.</i></div>");
+  };
+  
+  var theLoop = function() {
+	$("#todaysMatches").empty();
+	$("#todaysMatches").append("<img src='images/ajax-loader.gif' /><i>Fetching data</i>");
+	
+	var todaysMatchesJsonObject = $.ajax({
+	 url:"http://worldcup.sfg.io/matches/today?by_date=asc",
+	 error: displayErrorMessage,
+	 timeout: TIMEOUT_MILLISECONDS
+	});  
+
+	$(document).ajaxComplete(function() {  
+	 $("#todaysMatches").empty();
+	 var todaysMatches = todaysMatchesJsonObject.responseJSON;
+	 if (todaysMatches) {
+	   for (var i = 0; i < todaysMatches.length; i++) {
+		 var home = todaysMatches[i].home_team;
+		 var homeGoals = todaysMatches[i].home_team.goals;
+		 var away = todaysMatches[i].away_team;
+		 var awayGoals = todaysMatches[i].away_team.goals;
+	 
+		 var matchAsString = home.country + " <i>"+countryMapper[home.country]+"</i>" + " vs " + away.country + " <i>"+countryMapper[away.country]+"</i>";
+	 
+		 var result = "not&nbsp;started"
+		 if (todaysMatches[i].status != "future") {
+		   result = homeGoals + "&nbsp;-&nbsp;" + awayGoals;
+		 }  
+		
+		 var date = moment(new Date(todaysMatches[i].datetime).toUTCString());
+		 $("#todaysMatches").append("<div class='match'>"
+									  +"<span class='teams'>"
+									  +matchAsString
+									  +"<i> ("+result+") </i>"
+									  +"</span> <span class='time'>"
+									  +date.hours()+":00" + " <i>" + date.fromNow() +"</i>"
+									  +"</span>"
+								 + "</div>");
+	   } 
+	 } else {
+	   displayErrorMessage();
+	 }
+	});
+  };
+  
+ countryMapper = getDataSetFromAnchor();
+ theLoop();
+ setInterval(theLoop, REFRESH_MILLISECONDS);
+ 
+});
 
 </script>
 
